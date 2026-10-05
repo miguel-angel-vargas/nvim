@@ -1,0 +1,28 @@
+{
+  "suggest.noselect": false,
+  "suggest.enablePreselect": true,
+  "prettier.enable": true,
+  "prettier.requireConfig": false,
+  "prettier.tabWidth": 4,
+  "prettier.useTabs": true,
+  // "coc.preferences.formatOnSaveFiletypes": [
+  //   "javascript",
+  //   "typescript",
+  //   "html",
+  //   "css",
+  //   "php"
+  // ],
+  "snippets.ultisnips.pythonPrompt": false,
+  "typescript.suggest.completeFunctionCalls": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "javascript.autoClosingTags": false,
+  "intelephense.completion.triggerParameterHints": true,
+  "languageserver": {
+      "csharp-ls": {
+          "command":"csharp-ls",
+          "filetypes": ["cs"],
+          "rootPatterns":["*.csproj", ".git/"]
+      }
+  },
+  "typescript.autoClosingTags": false,
+}

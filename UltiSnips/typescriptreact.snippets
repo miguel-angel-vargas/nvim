@@ -1,0 +1,294 @@
+# =====================================================
+# Snippets de React + TypeScript para UltiSnips / coc-snippets
+# Filetype: typescriptreact (.tsx)
+# =====================================================
+
+# ---------- Componente funcional básico ----------
+snippet rfc "Componente funcional con props (TypeScript)" b
+interface ${1:`!p snip.rv = snip.basename or "Component"`}Props {
+	${2:// props}
+}
+
+const ${1:`!p snip.rv = snip.basename or "Component"`}: React.FC<${1}Props> = ({ ${3} }) => {
+	return (
+		<div>
+			${4:$1}
+		</div>
+	);
+};
+
+export default ${1};
+endsnippet
+
+# ---------- Componente funcional sin props ----------
+snippet rfce "Componente funcional simple, sin props" b
+const ${1:`!p snip.rv = snip.basename or "Component"`} = () => {
+	return (
+		<div>
+			${2:$1}
+		</div>
+	);
+};
+
+export default ${1};
+endsnippet
+
+# ---------- Export default arrow function genérica ----------
+snippet rafce "Arrow function component con export default arriba" b
+import type { FC } from "react";
+
+interface Props {
+	${2}
+}
+
+export const ${1:`!p snip.rv = snip.basename or "Component"`}: FC<Props> = ({${3}}) => {
+	return (
+		<div>${4}</div>
+	);
+};
+endsnippet
+
+# ---------- useState ----------
+snippet us "useState hook" b
+const [${1}, set${1/(.)(.*)/\u$1$2/}] = useState(${2});
+endsnippet
+
+# ---------- useEffect ----------
+snippet ue "useEffect hook" b
+useEffect(() => {
+	${1:// efecto}
+}, [${2:dependencias}]);
+endsnippet
+
+# ---------- useEffect con cleanup ----------
+snippet uec "useEffect con función de limpieza" b
+useEffect(() => {
+	${1:// efecto}
+
+	return () => {
+		${2:// cleanup}
+	};
+}, [${3:dependencias}]);
+endsnippet
+
+# ---------- useRef ----------
+snippet uref "useRef hook" b
+const ${1:ref} = useRef<${2:HTMLDivElement}>(null);
+endsnippet
+
+# ---------- useMemo ----------
+snippet umemo "useMemo hook" b
+const ${1:valor} = useMemo(() => {
+	return ${2:expresion};
+}, [${3:dependencias}]);
+endsnippet
+
+# ---------- useCallback ----------
+snippet ucb "useCallback hook" b
+const ${1:handler} = useCallback((${2:args}) => {
+	${3:// lógica}
+}, [${4:dependencias}]);
+endsnippet
+
+# ---------- useContext ----------
+snippet uctx "useContext hook" b
+const ${1:value} = useContext(${2:MiContexto});
+endsnippet
+
+# ---------- Custom hook ----------
+snippet hook "Plantilla de custom hook" b
+import { useState, useEffect } from 'react';
+
+export const use${1:NombreHook} = (${2:params}) => {
+	${3:// lógica del hook}
+
+	return { ${4:valores} };
+};
+endsnippet
+
+# ---------- Custom hook simple ----------
+snippet useh "Custom hook simple, retorna objeto" b
+export const ${1:`!p snip.rv = snip.basename or "useHook"`} = () => {
+	return {${2}};
+};
+endsnippet
+
+# ---------- Definir interface de Props ----------
+snippet props "Interface de Props" b
+interface ${1:Component}Props {
+	${2:propiedad}: ${3:tipo};
+}
+endsnippet
+
+# ---------- Manejador de evento onClick ----------
+snippet onclick "Handler de evento onClick" b
+const handle${1:Click} = (${2:e}: React.MouseEvent<${3:HTMLButtonElement}>) => {
+	${4:// lógica}
+};
+endsnippet
+
+# ---------- Manejador de evento onChange (input) ----------
+snippet onchange "Handler de evento onChange para input" b
+const handle${1:Change} = (e: React.ChangeEvent<${2:HTMLInputElement}>) => {
+	${3:setValue(e.target.value);}
+};
+endsnippet
+
+# ---------- Manejador de submit de formulario ----------
+snippet onsubmit "Handler de envío de formulario" b
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
+	${1:// lógica de envío}
+};
+endsnippet
+
+# ---------- Fetch de datos con useEffect ----------
+snippet fetchue "Fetch de datos dentro de useEffect" b
+const [${1:data}, set${1/(.)(.*)/\u$1$2/}] = useState<${2:tipo}[]>([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState<string | null>(null);
+
+useEffect(() => {
+	const fetch${1/(.)(.*)/\u$1$2/} = async () => {
+		try {
+			setLoading(true);
+			const res = await fetch(${3:'/api/endpoint'});
+			if (!res.ok) throw new Error('Error en la petición');
+			const json = await res.json();
+			set${1/(.)(.*)/\u$1$2/}(json);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : 'Error desconocido');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	fetch${1/(.)(.*)/\u$1$2/}();
+}, []);
+endsnippet
+
+# ---------- Map de lista con key ----------
+snippet map "Renderizar lista con .map y key" b
+{${1:items}.map((${2:item}) => (
+	<${3:li} key={${2:item}.${4:id}}>
+		${5:$2.nombre}
+	</$3>
+))}
+endsnippet
+
+# ---------- Renderizado condicional && ----------
+snippet cond "Renderizado condicional con &&" b
+{${1:condicion} && (
+	${2:<div>contenido</div>}
+)}
+endsnippet
+
+# ---------- Renderizado condicional ternario ----------
+snippet condt "Renderizado condicional ternario" b
+{${1:condicion} ? (
+	${2:<div>Verdadero</div>}
+) : (
+	${3:<div>Falso</div>}
+)}
+endsnippet
+
+# ---------- Context Provider completo ----------
+snippet context "Crear un Context con Provider y hook" b
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+interface ${1:Mi}ContextType {
+	${2:valor}: ${3:tipo};
+	set${2/(.)(.*)/\u$1$2/}: (value: $3) => void;
+}
+
+const ${1}Context = createContext<$1ContextType | undefined>(undefined);
+
+export const ${1}Provider = ({ children }: { children: ReactNode }) => {
+	const [${2}, set${2/(.)(.*)/\u$1$2/}] = useState<$3>(${4:valorInicial});
+
+	return (
+		<${1}Context.Provider value={{ ${2}, set${2/(.)(.*)/\u$1$2/} }}>
+			{children}
+		</${1}Context.Provider>
+	);
+};
+
+export const use${1} = () => {
+	const context = useContext(${1}Context);
+	if (!context) {
+		throw new Error('use${1} debe usarse dentro de un ${1}Provider');
+	}
+	return context;
+};
+endsnippet
+
+# ---------- Componente con children tipado ----------
+snippet rfcc "Componente funcional que recibe children" b
+interface ${1:`!p snip.rv = snip.basename or "Component"`}Props {
+	children: React.ReactNode;
+	${2:// otras props}
+}
+
+const ${1}: React.FC<${1}Props> = ({ children${3:, }${4} }) => {
+	return (
+		<div>
+			{children}
+		</div>
+	);
+};
+
+export default ${1};
+endsnippet
+
+# ---------- Import de React (cuando no usas el nuevo JSX transform) ----------
+snippet imr "Import de React" b
+import React from 'react';
+endsnippet
+
+# ---------- Import de hooks comunes ----------
+snippet imh "Import de hooks comunes de React" b
+import { useState, useEffect${1:, useRef} } from 'react';
+endsnippet
+
+# ---------- Styled component básico (styled-components) ----------
+snippet styled "Styled component" b
+const ${1:Wrapper} = styled.${2:div}\`
+	${3:/* estilos */}
+\`;
+endsnippet
+
+# ---------- Componente memoizado con React.memo ----------
+snippet memo "Componente envuelto en React.memo" b
+const ${1:`!p snip.rv = snip.basename or "Component"`} = React.memo(({ ${2:props} }: ${1}Props) => {
+	return (
+		<div>
+			${3}
+		</div>
+	);
+});
+
+$1.displayName = '$1';
+
+export default $1;
+endsnippet
+
+# ---------- Reducer con useReducer ----------
+snippet reducer "useReducer con tipos de acción" b
+type ${1:State} = {
+	${2:campo}: ${3:tipo};
+};
+
+type ${4:Action} =
+	| { type: '${5:ACCION}'; payload: ${6:tipo} };
+
+const ${7:reducer} = (state: $1, action: $4): $1 => {
+	switch (action.type) {
+		case '${5}':
+			return { ...state, ${2}: action.payload };
+		default:
+			return state;
+	}
+};
+
+const [state, dispatch] = useReducer($7, { ${2}: ${8:valorInicial} });
+endsnippet
